@@ -47,7 +47,7 @@ setup_options = {
     'long_description': get_readme(),
     'long_description_content_type': 'text/markdown',
     'license': 'Apache License 2.0',
-    'url': 'https://github.com/tmb28054/bf2pico',
+    'url': 'https://github.com/tmb28054/vault2secretsmanager',
     'name': 'vault2secretsmanager',
     'version': get_changelog(),
     'author': 'Topaz M. Bott',

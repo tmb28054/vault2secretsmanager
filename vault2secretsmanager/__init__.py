@@ -137,33 +137,41 @@ def tail() -> str:
         generator function that yields in the audit file
     """
     while True:
-        with open(LOG_FILE, 'r', encoding='utf8') as handler:
-            file_index = os.stat(LOG_FILE).st_ino
-            counter = 0
-            while True:
-                line = handler.readline()
-                if not line:
-                    time.sleep(0.1)
-                    counter += 1
-                    if counter > 600:  # 1 minute
-                        if file_index != os.stat(LOG_FILE).st_ino:  # file was rotated
-                            break
-                        counter = 0
-                    continue
-                yield line
+        try:
+            with open(LOG_FILE, 'r', encoding='utf8') as handler:
+                file_index = os.stat(LOG_FILE).st_ino
+                counter = 0
+                while True:
+                    line = handler.readline()
+                    if not line:
+                        time.sleep(0.1)
+                        counter += 1
+                        if counter > 600:  # 1 minute
+                            if file_index != os.stat(LOG_FILE).st_ino:  # file was rotated
+                                break
+                            counter = 0
+                        continue
+                    yield line
 
+        # bad try except todo add error handling
+        except:  # pylint: disable=bare-except
+            pass
 
 def replicate():
     """
         I monitor for secret changes.
     """
     for line in tail():
-        if line.contains(MATCH):
-            audit_line = json.loads(line)
-            if audit_line['Operation'] in ['create', 'update']:
-                replicate_secret(audit_line['Path'])
-            if audit_line['Operation'] in ['delete']:
-                delete_secret(audit_line['Path'])
+        try:
+            if line.contains(MATCH):
+                audit_line = json.loads(line)
+                if audit_line['Operation'] in ['create', 'update']:
+                    replicate_secret(audit_line['Path'])
+                if audit_line['Operation'] in ['delete']:
+                    delete_secret(audit_line['Path'])
+        # bad try except todo add error handling
+        except:  # pylint: disable=bare-except
+            pass
 
 
 def setup():
@@ -204,9 +212,9 @@ ExecStart={sys.executable} {__file__} replicate
 [Install]
 WantedBy=multi-user.target
     """)
-    subprocess.run(['systemctl', 'daemon-reload'])
-    subprocess.run(['systemctl', 'start', 'vaultsync.service'])
-    subprocess.run(['systemctl', 'enable', 'vaultsync.service'])
+    subprocess.run(['systemctl', 'daemon-reload'], check=False)
+    subprocess.run(['systemctl', 'start', 'vaultsync.service'], check=False)
+    subprocess.run(['systemctl', 'enable', 'vaultsync.service'], check=False)
 
 
 def main():
