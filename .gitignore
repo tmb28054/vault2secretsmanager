@@ -1,0 +1,5 @@
+go.py
+build/*
+*egg*/*
+*__pycache__*
+dist/*
