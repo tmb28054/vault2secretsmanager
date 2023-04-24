@@ -2,10 +2,10 @@
 A systemd service which will replicate secrets in vault to secrets manager.
 
 ## how to install
-`pip install -U vaultsync`
+`pip install -U vault2secretsmanager`
 
 ## how to setup
-`vaultsync setup`
+`vault2secretsmanager setup`
 
 ## requirements
 - python3.8 or greater

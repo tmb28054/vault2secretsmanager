@@ -48,15 +48,15 @@ setup_options = {
     'long_description_content_type': 'text/markdown',
     'license': 'Apache License 2.0',
     'url': 'https://github.com/tmb28054/bf2pico',
-    'name': 'vaultsync',
+    'name': 'vault2secretsmanager',
     'version': get_changelog(),
     'author': 'Topaz M. Bott',
     'author_email': 'topaz@topazhome.net',
     'scripts': [],
     'package_data': {
-        'vaultsync': []
+        'vault2secretsmanager': []
     },
-    'packages': ['vaultsync'],
+    'packages': ['vault2secretsmanager'],
     'include_package_data': True,
     'install_requires': get_requirements(),
     'classifiers': [
@@ -70,7 +70,7 @@ setup_options = {
     ],
     'entry_points': {
         'console_scripts': [
-            'vaultsync = vaultsync:main',
+            'vault2secretsmanager = vault2secretsmanager:main',
         ]
     },
 }
